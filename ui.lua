@@ -1,6 +1,7 @@
 -- ui.lua — Fluent UI меню для Mortis Hack
 
-local Mortis = getgenv().Mortis or require("core")
+-- Работает поверх уже инициализированного Mortis из main.lua
+local Mortis = getgenv().Mortis or {}
 getgenv().Mortis = Mortis
 
 local Settings = Mortis.Settings
