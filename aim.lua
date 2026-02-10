@@ -1,6 +1,7 @@
 -- aim.lua — аимбот, FOV‑круг, Magic Bullet, Anti-Recoil, No Hand Shake
 
-local Mortis = getgenv().Mortis or require("core")
+-- Работает с глобальным Mortis, созданным в core.lua
+local Mortis = getgenv().Mortis or {}
 getgenv().Mortis = Mortis
 
 local Workspace = Mortis.Workspace
