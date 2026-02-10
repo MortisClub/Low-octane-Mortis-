@@ -20,15 +20,8 @@
 local BASE_URL = "https://raw.githubusercontent.com/MortisClub/Low-octane-Mortis-/main/"
 
 -- Список модулей (файлов без .lua), которые нужно подгрузить.
--- В этом проекте код уже разделён на:
---   core.lua, lighting.lua, movement.lua, esp.lua, aim.lua, ui.lua, runtime.lua
+-- Сейчас используется монолитный runtime.lua с оригинальной логикой чита.
 local MODULES = {
-    "core",
-    "lighting",
-    "movement",
-    "esp",
-    "aim",
-    "ui",
     "runtime",
 }
 
@@ -97,14 +90,7 @@ end
 --
 -- Тогда main.lua запустит её автоматически.
 
-if type(Mortis.init) == "function" then
-    local okInit, errInit = pcall(Mortis.init)
-    if not okInit then
-        warn("[Mortis] Ошибка в Mortis.init(): " .. tostring(errInit))
-    end
-else
-    warn("[Mortis] Mortis.init не найден. Убедись, что один из модулей его создаёт.")
-end
-
+-- Сейчас вся инициализация (UI, хуки, циклы) происходит внутри runtime.lua,
+-- поэтому Mortis.init вызывать не нужно.
 print("[Mortis] main.lua: загрузка завершена")
 
