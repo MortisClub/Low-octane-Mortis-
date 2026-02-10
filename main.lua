@@ -14,8 +14,10 @@
 --   "https://raw.githubusercontent.com/USER/REPO/branch/path/to/folder/"
 --   "https://example.com/mortis/"
 --
--- ОБЯЗАТЕЛЬНО: заканчивай слэшем "/" и не забудь поменять на свой.
-local BASE_URL = "https://example.com/mortis/"  -- TODO: поменяй на свой URL
+-- В ЭТОМ РЕПОЗИТОРИИ уже настроено на GitHub MortisClub:
+--   https://raw.githubusercontent.com/MortisClub/Low-octane-Mortis-/main/
+-- Если ты форкаешь репо под себя — замени на свой raw‑URL.
+local BASE_URL = "https://raw.githubusercontent.com/MortisClub/Low-octane-Mortis-/main/"
 
 -- Список модулей (файлов без .lua), которые нужно подгрузить.
 -- В этом проекте код уже разделён на:
