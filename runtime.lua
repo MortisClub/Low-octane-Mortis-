@@ -881,6 +881,67 @@ AimbotTab:AddButton({
     end
 })
 
+-- ============================================
+-- HOOKS (FIXED FOR NEW XENO)
+-- ============================================
+
+local _hookInstalled = false
+local _oldNamecall = nil
+
+local function installMagicBulletHook()
+    if _hookInstalled then return end
+    _hookInstalled = true
+
+    pcall(function()
+        _oldNamecall = hookmetamethod(game, "__namecall", function(self, ...)
+            -- Если Magic Bullet выключен — ничего не трогаем
+            if not Settings.MagicBullet_Enabled then
+                return _oldNamecall(self, ...)
+            end
+
+            local method = getnamecallmethod()
+
+            -- Только FireServer / InvokeServer
+            if method ~= "FireServer" and method ~= "InvokeServer" then
+                return _oldNamecall(self, ...)
+            end
+
+            local ok, remoteName = pcall(function() return self.Name:lower() end)
+            if not ok or not remoteName then
+                return _oldNamecall(self, ...)
+            end
+
+            -- Только ремоуты, связанные со стрельбой
+            local isShootRemote = remoteName:find("shoot")
+                or remoteName:find("fire")
+                or remoteName:find("gun")
+                or remoteName:find("damage")
+                or remoteName:find("hit")
+                or remoteName:find("bullet")
+
+            if not isShootRemote then
+                return _oldNamecall(self, ...)
+            end
+
+            -- Только здесь трогаем аргументы
+            local args = {...}
+            local target = getMagicBulletTarget()
+            if target then
+                for i = 1, #args do
+                    if typeof(args[i]) == "Vector3" then
+                        args[i] = target.Position
+                    elseif typeof(args[i]) == "CFrame" then
+                        args[i] = CFrame.new(target.Position)
+                    end
+                end
+                return _oldNamecall(self, unpack(args))
+            end
+
+            return _oldNamecall(self, ...)
+        end)
+    end)
+end
+
 -- ===================== COMBAT TAB =====================
 local CombatTab = Window:AddTab({ Title = "Combat", Icon = "swords" })
 
@@ -889,8 +950,13 @@ CombatTab:AddParagraph({ Title = "🔫 Magic Bullet", Content = "Автомат�
 CombatTab:AddToggle("MagicBullet", {
     Title = "Magic Bullet",
     Description = "Перенаправляет пули в цель",
-    Default = Settings.MagicBullet_Enabled,
-    Callback = function(v) Settings.MagicBullet_Enabled = v end
+    Default = false,
+    Callback = function(v)
+        Settings.MagicBullet_Enabled = v
+        if v and not _hookInstalled then
+            installMagicBulletHook()
+        end
+    end
 })
 
 CombatTab:AddToggle("MBFOVCheck", {
@@ -1155,21 +1221,8 @@ InterfaceManager:BuildInterfaceSection(SettingsTab)
 SaveManager:BuildConfigSection(SettingsTab)
 
 -- ============================================
--- HOOKS
+-- HOOKS (Magic Bullet устанавливается выше через installMagicBulletHook)
 -- ============================================
-
-pcall(function()
-    local old old = hookmetamethod(game, "__namecall", function(self, ...)
-        local args = {...} local m = getnamecallmethod()
-        if (m=="FireServer" or m=="InvokeServer") and Settings.MagicBullet_Enabled then
-            local ok,rn = pcall(function() return self.Name:lower() end)
-            if ok and rn and (rn:find("shoot") or rn:find("fire") or rn:find("gun") or rn:find("damage") or rn:find("hit") or rn:find("bullet")) then
-                local t = getMagicBulletTarget() if t then for i=1,#args do if typeof(args[i])=="Vector3" then args[i]=t.Position elseif typeof(args[i])=="CFrame" then args[i]=CFrame.new(t.Position) end end end
-            end
-        end
-        return old(self, unpack(args))
-    end)
-end)
 
 -- ============================================
 -- INPUT
