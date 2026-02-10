@@ -27,39 +27,52 @@
 
 ### Основные функции
 
-- **Aimbot**: плавное/агрессивное наведение, FOV‑круг, пресеты  
-- **ESP / WH**: подсветка игроков по командам (headcloth / band / neutral)  
-- **Visuals**: Fullbright  
+- **Aimbot**  
+  Плавное/агрессивное наведение с FOV‑кругом, предиктом, кривой отклика и готовыми пресетами (Ideal / Aggressive / Legit / Lock‑On).  
+
+- **ESP / Wallhack**  
+  Подсветка игроков по командам (`headcloth` / `band` / neutral), настраиваемый цвет и прозрачность, автоскан игроков.  
+
+- **Visuals**  
+  Fullbright с защитой от попыток карты затемнить освещение.  
+
+- **Configs**  
+  Сохранение/загрузка всех настроек (ESP, Aimbot, Fullbright) в JSON‑файлы внутри папки `MortisHack/` + авто‑загрузка `default`.  
 
 **Удалено в v10.x** (по совместимости с новым Xeno):
-- **Magic Bullet / hookmetamethod** (ломает оружие в новой версии Xeno)
+- **Magic Bullet / hookmetamethod** — в новой версии Xeno ломал оружие и прицеливание.
 
 Единая точка входа — `main.lua`, который загружает монолитный `runtime.lua`  
 ([посмотреть на GitHub](https://github.com/MortisClub/Low-octane-Mortis-/blob/main/main.lua)).  
-Монолитный формат выбран специально: так Xeno гарантированно загружает весь код без `require` и дополнительных модулей.
+Монолитный формат выбран специально: Xeno стабильнее работает, когда весь код приезжает одной `loadstring(game:HttpGet(...))()` без `require` и лишних файлов.
 
 ---
 
 ## Быстрый старт
 
- **Запуск в Xeno / другом Lua‑экзекьюторе**:
+- **1. Запуск в Xeno / другом Lua‑экзекьюторе**
 
-```lua
-loadstring(game:HttpGet("https://raw.githubusercontent.com/MortisClub/Low-octane-Mortis-/main/main.lua"))()
-```
+  ```lua
+  loadstring(game:HttpGet("https://raw.githubusercontent.com/MortisClub/Low-octane-Mortis-/main/main.lua"))()
+  ```
 
-После запуска откроется Rayfield‑GUI с вкладками:
-- **ESP**
-- **Aimbot**
-- **Visuals**
+- **2. Дождись загрузки GUI**  
+  Появится Rayfield‑меню с вкладками:
+  - **ESP**
+  - **Aimbot**
+  - **Visuals**
+  - **Configs**
+
+- **3. (Опционально) Включи авто‑загрузку конфига**  
+  Во вкладке `Configs` можно включить `Auto-Load 'default' on Start`, чтобы при следующем запуске скрипт сам подхватывал твой дефолтный конфиг.
 
 ---
 
 ## Как это работает
 
-- **`main.lua`** — загрузчик.
-- **`runtime.lua`** — основной скрипт v11.2 (ESP + Aimbot + Fullbright + Configs) и Rayfield‑GUI.
-- **Без хуков**: в v10.2 нет `hookmetamethod`, чтобы не ломать оружие в новом Xeno.
+- **`main.lua`** — лёгкий загрузчик, который по raw‑URL тянет `runtime.lua`.  
+- **`runtime.lua`** — монолитный скрипт v11.2 (ESP + Aimbot + Fullbright + Configs + Rayfield‑GUI).  
+- **Без хуков** — в актуальных версиях нет `hookmetamethod`, чтобы не трогать сетевые вызовы и не ломать оружие в новом Xeno.
 
 ---
 
@@ -81,31 +94,32 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/MortisClub/Low-octane
 loadstring(game:HttpGet("https://raw.githubusercontent.com/<USER>/<REPO>/main/main.lua"))()
 ```
 
-2. Дождись загрузки модулей и появления Fluent‑меню.
+2. Дождись появления Rayfield‑меню.
 3. Настрой нужные функции во вкладках:
    - **ESP** — подсветка игроков  
    - **Aimbot** — ключ активации, FOV, режимы наведения  
-   - **Visuals** — Fullbright
+   - **Visuals** — Fullbright  
+   - **Configs** — сохранение/загрузка настроек
 
 ---
 
 ## FAQ
 
--- **Почему нет Magic Bullet?**  
-  В v10.2 он убран, потому что `hookmetamethod` ломает оружие/прицеливание в новом Xeno.
+- **Почему нет Magic Bullet?**  
+  В v10.x он удалён: `hookmetamethod` ломал оружие/прицеливание в новом Xeno, поэтому чит теперь вообще не трогает сетевые вызовы.
 
--- **Где менять настройки по умолчанию (FOV, плавность, цвет ESP)?**  
-  В начале `runtime.lua` в таблице `Settings`.
+- **Где менять настройки по умолчанию (FOV, плавность, цвет ESP)?**  
+  В начале `runtime.lua` в таблице `Settings`, либо сохрани нужный пресет как конфиг и используй авто‑загрузку.
 
--- **Как поменять клавишу активации аима?**  
-  В игре — во вкладке **Aimbot** (Aim Key).
+- **Как поменять клавишу активации аима?**  
+  Во вкладке **Aimbot** (параметр Aim Key / `AimKey` в Rayfield).
 
--- **Почему GUI не появляется?**  
+- **Почему GUI не появляется?**  
   Убедись, что запускаешь именно raw‑ссылку (а не `github.com/.../blob/...`):
 
-```lua
-loadstring(game:HttpGet("https://raw.githubusercontent.com/MortisClub/Low-octane-Mortis-/main/main.lua"))()
-```
+  ```lua
+  loadstring(game:HttpGet("https://raw.githubusercontent.com/MortisClub/Low-octane-Mortis-/main/main.lua"))()
+  ```
 
 ---
 
