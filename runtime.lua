@@ -1,6 +1,8 @@
 -- runtime.lua — хуки, инпут, циклы RunService и общий init
 
-local Mortis = getgenv().Mortis or require("core")
+-- К этому моменту main.lua уже создал getgenv().Mortis и загрузил все модули,
+-- поэтому просто берём готовый глобал и не используем Roblox require.
+local Mortis = getgenv().Mortis or {}
 getgenv().Mortis = Mortis
 
 local Settings = Mortis.Settings
@@ -10,11 +12,12 @@ local Lighting = Mortis.Lighting
 local Workspace = Mortis.Workspace
 local Camera = Mortis.Camera
 
-local lighting = require("lighting")
-local movement = require("movement")
-local aim = require("aim")
-local esp = require("esp")
-local ui = require("ui")
+-- Модули уже лежат в Mortis.Modules (загружены в main.lua)
+local lighting = Mortis.Modules and Mortis.Modules.lighting
+local movement = Mortis.Modules and Mortis.Modules.movement
+local aim = Mortis.Modules and Mortis.Modules.aim
+local esp = Mortis.Modules and Mortis.Modules.esp
+local ui = Mortis.Modules and Mortis.Modules.ui
 
 local M = {}
 
