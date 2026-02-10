@@ -5,8 +5,6 @@
   <img src="https://i.ibb.co/vx5yR1Kd/uvsoprkl.png" alt="Mortis Hack Banner" width="720">
 
   <br><br>
-
-  <!-- БЕЙДЖИ -->
   <img src="https://img.shields.io/badge/Roblox-Script-blueviolet?style=for-the-badge" />
   <img src="https://img.shields.io/badge/Mortis-v11.2-red?style=for-the-badge" />
   <img src="https://img.shields.io/badge/Xeno-Fix-black?style=for-the-badge" />
