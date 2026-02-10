@@ -44,7 +44,7 @@
  **запусти в Xeno / SynX / другом Lua‑экзекьюторе**:
 
 ```lua
-loadstring(game:HttpGet("https://github.com/MortisClub/Low-octane-Mortis-/blob/main/main.lua"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/MortisClub/Low-octane-Mortis-/main/main.lua"))()
 ```
 
 После этого `main.lua` автоматически:
