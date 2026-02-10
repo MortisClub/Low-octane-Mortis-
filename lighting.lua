@@ -1,6 +1,7 @@
 -- lighting.lua — управление освещением и защита свойств Lighting
 
-local Mortis = getgenv().Mortis or require("core")
+-- Берём уже созданный в core.lua/global Mortis, без Roblox require
+local Mortis = getgenv().Mortis or {}
 getgenv().Mortis = Mortis
 
 local Lighting = Mortis.Lighting
