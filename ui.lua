@@ -7,10 +7,11 @@ getgenv().Mortis = Mortis
 local Settings = Mortis.Settings
 local RunService = Mortis.RunService
 
-local lighting = require("lighting")
-local movement = require("movement")
-local aim = require("aim")
-local esp = require("esp")
+-- Модули уже загружены через main.lua и core.lua
+local lighting = Mortis.LightingModule
+local movement = Mortis.Movement
+local aim = Mortis.Aim
+local esp = Mortis.ESP
 
 local M = {}
 
